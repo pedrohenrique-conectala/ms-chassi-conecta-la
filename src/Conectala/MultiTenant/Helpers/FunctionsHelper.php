@@ -27,7 +27,22 @@ if (! function_exists('getTenantRequest')) {
      */
     function getTenantRequest(): string
     {
-        return request()->route('tenant');
+        $jwt = request()->headers('Authorization');
+        if ($jwt === 'null') {
+            return null;
+        }
+        $jwt = explode('.',$jwt);
+        $payload = json_decode(base64_decode($jwt[1]));
+        if(!isset($payload->iss)){ 
+            return false;
+        }
+        $iss = $payload->iss;
+        $iss = explode('/', $iss);
+        $tenant = $iss[count($iss) - 1];
+        if ($tenant === 'null') {
+            return null;
+        }
+        return $tenant;
     }
 }
 
