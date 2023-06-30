@@ -25,7 +25,7 @@ if (! function_exists('getTenantRequest')) {
      *
      * @return  string
      */
-    function getTenantRequest(): string
+    function getTenantRequest(): string|null
     {
         $jwt = request()->headers('Authorization');
         if ($jwt === 'null') {
