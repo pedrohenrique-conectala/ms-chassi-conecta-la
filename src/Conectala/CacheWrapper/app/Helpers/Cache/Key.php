@@ -1,6 +1,6 @@
 <?php
 
-namespace Conectala\MultiTenant\Helpers\Cache;
+namespace App\Helpers\Cache;
 
 use Conectala\CacheWrapper\Helpers\Cache\Parts;
 
