@@ -23,9 +23,9 @@ if (! function_exists('getTenantRequest')) {
     /**
      * Identifica qual o tenant que fez a requisição.
      *
-     * @return  string
+     * @return  string|null
      */
-    function getTenantRequest(): string
+    function getTenantRequest(): string|null
     {
         $jwt = request()->headers('Authorization');
         if ($jwt === 'null') {
