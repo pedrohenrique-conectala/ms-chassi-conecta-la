@@ -8,6 +8,11 @@ use Conectala\CacheWrapper\Wrappers\Cache;
 class ModelCachingObserver
 {
 
+    public function saving(Model $model): void
+    {
+        $this->deleteModelCache($model);
+    }
+
     public function updating(Model $model): void
     {
         $this->deleteModelCache($model);
@@ -20,6 +25,7 @@ class ModelCachingObserver
 
     protected function deleteModelCache(Model $model): void
     {
-        Cache::forget($model->getOriginal(), fn() => true, $model);
+        $modelName = method_exists($model, 'slugName') ? $model->slugName() : strtolower(get_class($model));
+        Cache::forget(array_merge($model->getOriginal(), ['_model' => $modelName]), fn() => true, $model);
     }
 }
