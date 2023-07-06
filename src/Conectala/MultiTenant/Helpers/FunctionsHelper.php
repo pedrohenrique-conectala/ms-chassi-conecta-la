@@ -39,7 +39,7 @@ if (! function_exists('getTenantRequest')) {
         $iss = $payload->iss;
         $iss = explode('/', $iss);
         //$tenant = $iss[count($iss) - 1];
-        $tenant = $payload->client_id;
+        $tenant = $payload->client_id ?? $payload->clientId ?? null;
         if ($tenant === 'null') {
             return null;
         }
