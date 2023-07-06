@@ -27,10 +27,18 @@ if (! function_exists('getTenantRequest')) {
      */
     function getTenantRequest(): string|null
     {
-        $jwt = request()->headers->get('Authorization');
-        if ($jwt === 'null') {
+        $tenant = request()->route('tenant') ?? null;
+        if ($tenant !== null) return $tenant;
+
+        $jwt = request()->headers->get('Authorization') ?? null;
+        if ($jwt === 'null' || $jwt === null) {
+            $token = base64_decode(request()->route('token') ?? '');
+            $tokenExplode = explode(':', $token);
+            $tenant = $tokenExplode[1] ?? null;
+            if ($tenant !== null) return $tenant;
             return null;
         }
+
         $jwt = explode('.',$jwt);
         $payload = json_decode(base64_decode($jwt[1]));
         if(!isset($payload->iss)){ 
