@@ -8,9 +8,17 @@ class Key extends Parts
 {
     public static function retrievePrefixParts(): array
     {
+        try {
+            $tenant = getTenantRequest();
+        } catch (\Throwable $e) {
+        }
+        try {
+            $store = getStoreRequest();
+        } catch (\Throwable $e) {
+        }
         return [
-            'tenant' => getTenantRequest() ?? 'tenant',
-            'store_id' => getStoreRequest() ?? null,
+            'tenant' => $tenant ?? 'tenant',
+            'store_id' => $store ?? null
         ];
     }
 }
