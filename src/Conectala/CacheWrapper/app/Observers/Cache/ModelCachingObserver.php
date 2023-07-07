@@ -25,7 +25,6 @@ class ModelCachingObserver
 
     protected function deleteModelCache(Model $model): void
     {
-        $modelName = method_exists($model, 'slugName') ? $model->slugName() : strtolower(get_class($model));
-        Cache::forget(array_merge($model->getOriginal(), ['_model' => $modelName]), fn() => true, $model);
+        Cache::forget($model->getOriginal(), fn() => true, $model);
     }
 }
