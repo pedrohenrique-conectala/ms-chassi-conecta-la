@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Observers\Cache;
+namespace Conectala\CacheWrapper\Observers\Cache;
 
 use Illuminate\Database\Eloquent\Model;
 use Conectala\CacheWrapper\Wrappers\Cache;
