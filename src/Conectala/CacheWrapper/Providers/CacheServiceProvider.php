@@ -1,6 +1,6 @@
 <?php
 
-namespace Conectala\CacheWrapper\App\Providers;
+namespace Conectala\CacheWrapper\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
