@@ -58,7 +58,9 @@ class CacheObjectHandler
 
     protected function mapLoadedAttrs(array $loadedAttrs = []): array
     {
-        if (!array_is_list($loadedAttrs)) {
+        $keys = array_keys($loadedAttrs);
+        $namedKeys = array_filter($keys, 'is_string');
+        if (count($keys) === count($namedKeys)) {
             return $loadedAttrs;
         }
         return array_reduce($loadedAttrs, 'array_merge', []);

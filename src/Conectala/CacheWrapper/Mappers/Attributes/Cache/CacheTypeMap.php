@@ -11,8 +11,6 @@ use Conectala\CacheWrapper\Mappers\Attributes\Cache\DataStructures\CacheAttribut
  */
 class CacheTypeMap
 {
-    const WILD_CARDS = ['*'];
-
     protected array $argumentsMap = [];
 
     public function __construct()
@@ -29,7 +27,9 @@ class CacheTypeMap
         $cacheAttribute = new CacheAttribute($name, $position, $mappedArguments, $addMapParams);
         $keyParts = explode(':', $cacheAttribute->getOriginalName());
         $nameParts = explode('|', $keyParts[0] ?? '');
-        $name = $nameParts[0] ?? '';
+        $hasDefault = explode('=', $nameParts[0] ?? '');
+        $name = $hasDefault[0] ?? '';
+        $defaultValue = $hasDefault[1] ?? null;
         $cacheAttribute->aliasName = $nameParts[1] ?? $name;
         $cacheAttribute->name = empty($name) ? $cacheAttribute->aliasName : $name;
         if (str_starts_with($cacheAttribute->name, '!')) {
@@ -38,7 +38,7 @@ class CacheTypeMap
                 $cacheAttribute->name => null, $cacheAttribute->originalName => null
             ]);
         }
-        $cacheAttribute->originalValue = $cacheAttribute->getValueArgumentByArgName($cacheAttribute->name, [self::WILD_CARDS]);
+        $cacheAttribute->originalValue = $cacheAttribute->getValueArgumentByArgName($cacheAttribute->name, $defaultValue);
         $cacheAttribute->value = ($keyParts[1] ?? $cacheAttribute->originalValue);
         if (Str::contains($cacheAttribute->value, '{value}')) {
             $cacheAttribute->value = Str::replace(['{value}'], $cacheAttribute->originalValue, $cacheAttribute->value);

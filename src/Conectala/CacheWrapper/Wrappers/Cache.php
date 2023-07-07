@@ -2,7 +2,6 @@
 
 namespace Conectala\CacheWrapper\Wrappers;
 
-use Illuminate\Support\Facades\Log;
 use Conectala\CacheWrapper\Handlers\Cache\CacheHandler;
 use Conectala\CacheWrapper\Helpers\Cache\Key;
 use Illuminate\Support\Facades\Cache as CacheManager;

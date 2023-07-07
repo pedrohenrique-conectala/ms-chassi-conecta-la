@@ -49,16 +49,9 @@ class CacheAttribute
         return $this->argMappingFound;
     }
 
-    public function getValueArgumentByArgName(string $argName, array $aliases = []): string|int|bool|null
+    public function getValueArgumentByArgName(string $argName, string|int|bool|null $defaultValue = null): string|int|bool|null
     {
-        $this->argMappingFound = array_key_exists($argName, $this->mergedArguments);
-        if (!$this->argMappingFound && in_array($argName, $aliases)) {
-            $value = array_filter($aliases, function ($alias) use ($argName) {
-                return $argName === $alias;
-            })[0] ?? null;
-            $this->argMappingFound = !empty($value);
-            return $value;
-        }
-        return $this->mergedArguments[$argName] ?? $this->mergedArguments[$this->originalName] ?? null;
+        $this->argMappingFound = array_key_exists($argName, $this->mergedArguments) || !empty($defaultValue);
+        return $this->mergedArguments[$argName] ?? $this->mergedArguments[$this->originalName] ?? $defaultValue ?? null;
     }
 }
